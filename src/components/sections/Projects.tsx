@@ -18,7 +18,7 @@ export default function Projects() {
               <article className="project-card">
                 <div className="project-card__top">
                   <span className="project-card__index">0x0{i + 1}</span>
-                  <Badge tone="amber">{project.status}</Badge>
+                  <Badge tone={project.status === "Completed" ? "green" : "amber"}>{project.status}</Badge>
                 </div>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
