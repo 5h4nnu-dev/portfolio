@@ -24,31 +24,51 @@ export default function About() {
         />
         <div className="about__grid">
           <ScrollReveal>
-            <TerminalWindow title="whoami — shannu@portfolio" copyText={whoami.map(([k, v]) => `${k}: ${v}`).join("\n")}>
-              <p className="prompt-line"><span className="prompt">$</span> whoami --verbose</p>
-              <dl className="kv">
-                {whoami.map(([key, value]) => (
-                  <div key={key} style={{ display: "contents" }}>
-                    <dt>{key}</dt>
-                    <dd><span>{value}</span></dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="about__bio">
-                <p>{profile.mission}</p>
-                <p style={{ marginTop: 12 }}>
-                  My work sits at the intersection of offensive security and AI: reconnaissance,
-                  web and binary exploitation, privilege escalation, and building intelligent
-                  systems that can find and understand vulnerabilities. I document the journey
-                  as CTF walkthroughs so the next person has a map.
-                </p>
-                <div className="topic-list" aria-label="Writeup topics">
-                  {writeupTopics.map((topic) => (
-                    <Badge key={topic} tone="sky">{topic}</Badge>
-                  ))}
-                </div>
+            <div className="about__identity">
+              <div className="about__avatar">
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet="/assets/profile/profile-avatar-96.webp 96w, /assets/profile/profile-avatar-256.webp 256w"
+                    sizes="(min-width: 769px) 120px, 96px"
+                  />
+                  <img
+                    src="/assets/profile/profile-avatar-256.webp"
+                    alt="Shannu"
+                    width={120}
+                    height={120}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                <span className="about__avatar-status"><i className="pulse-dot" aria-hidden="true" /> ONLINE</span>
               </div>
-            </TerminalWindow>
+              <TerminalWindow title="whoami — shannu@portfolio" copyText={whoami.map(([k, v]) => `${k}: ${v}`).join("\n")}>
+                <p className="prompt-line"><span className="prompt">$</span> whoami --verbose</p>
+                <dl className="kv">
+                  {whoami.map(([key, value]) => (
+                    <div key={key} style={{ display: "contents" }}>
+                      <dt>{key}</dt>
+                      <dd><span>{value}</span></dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="about__bio">
+                  <p>{profile.mission}</p>
+                  <p style={{ marginTop: 12 }}>
+                    My work sits at the intersection of offensive security and AI: reconnaissance,
+                    web and binary exploitation, privilege escalation, and building intelligent
+                    systems that can find and understand vulnerabilities. I document the journey
+                    as CTF walkthroughs so the next person has a map.
+                  </p>
+                  <div className="topic-list" aria-label="Writeup topics">
+                    {writeupTopics.map((topic) => (
+                      <Badge key={topic} tone="sky">{topic}</Badge>
+                    ))}
+                  </div>
+                </div>
+              </TerminalWindow>
+            </div>
           </ScrollReveal>
 
           <ScrollReveal delay={120}>

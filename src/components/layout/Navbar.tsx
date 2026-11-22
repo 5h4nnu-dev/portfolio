@@ -51,7 +51,15 @@ export default function Navbar() {
       <header className={`nav ${scrolled || open ? "nav--scrolled" : ""}`}>
         <div className="shell nav__inner">
           <a className="nav__logo" href="#hero" aria-label="Shannu — back to top">
-            shannu<span>@</span>portfolio<span>:~</span><b>$</b>
+            <img
+              className="nav__avatar"
+              src="/assets/profile/profile-avatar-96.webp"
+              alt=""
+              width={32}
+              height={32}
+              aria-hidden="true"
+            />
+            <span>shannu<span>@</span>portfolio<span>:~</span><b>$</b></span>
           </a>
 
           <nav className="nav__links" aria-label="Main navigation">

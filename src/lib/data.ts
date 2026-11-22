@@ -10,7 +10,7 @@
  */
 
 export const profile = {
-  name: "Shannu",
+  name: "Shanmukha",
   handle: "5h4nnu-dev",
   location: "India",
   role: "Cybersecurity Engineer",
@@ -25,7 +25,7 @@ export const profile = {
   ],
   github: "https://github.com/5h4nnu-dev",
   // TODO: replace these two placeholders with real links.
-  email: "PLACEHOLDER_EMAIL",
+  email: "5h4nnu.official.@gmail.com",
   linkedin: "PLACEHOLDER_LINKEDIN",
 } as const
 
@@ -89,10 +89,10 @@ export const projects: Project[] = [
     status: "In development",
   },
   {
-    name: "Emotional AI",
+    name: "LIA",
     description: "AI that understands personality and emotions in conversation.",
     tags: ["AI", "NLP", "Python"],
-    status: "In development",
+    status: "Completed",
   },
   {
     name: "ARIS",
@@ -106,6 +106,12 @@ export const projects: Project[] = [
     tags: ["AI", "Agents", "Automation"],
     status: "In development",
   },
+  {
+    name: "pslist",
+    description: "Wordlist generator with specific details.",
+    tags: ["Python", "Security", "Exploitation"],
+    status: "Completed"
+  }
 ]
 
 export type SkillGroup = {

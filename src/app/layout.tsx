@@ -15,6 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Shannu — Cybersecurity Engineer & AI Builder",
   description:
     "Shannu is a cybersecurity engineer, AI builder and CTF player from India building intelligent systems that find, understand and fix vulnerabilities automatically.",
@@ -35,11 +36,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "Shannu Portfolio",
+    images: [
+      {
+        url: "/assets/profile/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Shannu — Cybersecurity Engineer & AI Builder",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Shannu — Cybersecurity Engineer & AI Builder",
     description: "Hack to understand. Build to protect.",
+    images: ["/assets/profile/og-image.png"],
   },
   robots: { index: true, follow: true },
 }
