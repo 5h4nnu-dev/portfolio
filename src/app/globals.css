@@ -635,7 +635,54 @@ h4 {
 /* ---------------------------------------------------------------------------
    FEATURED PROJECT + ATTACK CHAIN
    --------------------------------------------------------------------------- */
+/* Featured carousel: arrows flank the existing two-column project panel. */
+.featured__slider {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 16px);
+}
+.featured__nav {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: rgba(148, 163, 184, 0.05);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.featured__nav:hover {
+  border-color: rgba(0, 255, 170, 0.4);
+  background: var(--mint-dim);
+  color: var(--mint);
+  transform: translateY(-1px);
+}
+.featured__nav:active { transform: translateY(0); }
+.featured__nav--prev { grid-column: 1; grid-row: 1; }
+.featured__nav--next { grid-column: 3; grid-row: 1; }
+/* Simple swipe: one face moves out, content swaps, then it moves back in. */
+.featured__face[data-phase="out"] {
+  animation: featured-swipe-out 140ms ease-in both;
+}
+.featured__face[data-phase="in"] {
+  animation: featured-swipe-in 160ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes featured-swipe-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(var(--swipe-out, -48px)); }
+}
+@keyframes featured-swipe-in {
+  from { opacity: 0; transform: translateX(var(--swipe-in, 48px)); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 .featured__grid {
+  grid-column: 2;
+  grid-row: 1;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   gap: clamp(24px, 5vw, 64px);
@@ -1631,6 +1678,15 @@ h4 {
 }
 
 @media (max-width: 560px) {
+  /* Keep the panel full-width on narrow screens; park both arrows below it. */
+  .featured__slider {
+    grid-template-columns: 40px 40px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: var(--s-2);
+  }
+  .featured__grid { grid-column: 1 / -1; grid-row: 1; }
+  .featured__nav--prev { grid-column: 1; grid-row: 2; }
+  .featured__nav--next { grid-column: 2; grid-row: 2; }
   .chain__track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chain__step::after { content: none !important; }
   .writeup-grid { grid-template-columns: 1fr; }

@@ -57,6 +57,52 @@ export const featuredProject = {
   ],
 } as const
 
+/** Content for the Featured carousel. The original `featuredProject` export is
+ *  kept untouched because the writeups section links to its repository. */
+export type FeaturedProject = {
+  id: string
+  name: string
+  summary: string
+  description: string
+  repo: string
+  stack: readonly string[]
+  features: readonly string[]
+  metrics: readonly { readonly value: string; readonly label: string }[]
+  terminalTitle: string
+}
+
+export const featuredProjects: FeaturedProject[] = [
+  {
+    id: "ctf-archive",
+    terminalTitle: "CTF-Archive — stack & signals",
+    ...featuredProject,
+  },
+  {
+    id: "vulnix",
+    terminalTitle: "Vulnix — stack & signals",
+    name: "Vulnix",
+    summary:
+      "AI-assisted web vulnerability scanner with a deterministic engine and an optional autonomous agent — built for authorized testing.",
+    description:
+      "Node/Express API with a deterministic scanner, a provider-agnostic LLM layer (Ollama or OpenAI-compatible), SQLite storage and a dark terminal UI. Three scan modes, consent gates, and Markdown/DOCX reports.",
+    repo: "https://github.com/5h4nnu-dev/Vulnix",
+    stack: ["Node.js", "Express", "SQLite", "LLM", "Jest"],
+    features: [
+      "Deterministic checks for SQLi, XSS, SSRF, LFI and command injection",
+      "AI-generated, schema-validated payloads via Ollama or OpenAI-compatible APIs",
+      "Bounded plan → act → observe agent with request and time budgets",
+      "Prompt-injection detection and isolation of untrusted target content",
+      "SQLite-backed scan history with a live terminal-style dashboard",
+      "Markdown and DOCX reports with findings, payloads and agent traces",
+    ],
+    metrics: [
+      { value: "3", label: "scan modes" },
+      { value: "23", label: "API endpoints" },
+      { value: "2", label: "report formats" },
+    ],
+  },
+]
+
 export const attackChain = [
   { step: "RECON", detail: "Map the surface", tone: "sky" },
   { step: "ENUMERATE", detail: "Find the entry", tone: "purple" },

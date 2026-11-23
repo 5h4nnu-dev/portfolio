@@ -1,11 +1,112 @@
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { ArrowUpRight, ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react"
 import SectionHeading from "@/components/ui/SectionHeading"
 import TerminalWindow from "@/components/ui/TerminalWindow"
 import ScrollReveal from "@/components/ui/ScrollReveal"
 import Badge from "@/components/ui/Badge"
-import { attackChain, featuredProject } from "@/lib/data"
+import { attackChain, featuredProjects, type FeaturedProject } from "@/lib/data"
+
+const SWIPE_OUT_MS = 140
+const SWIPE_IN_MS = 160
+
+function TextFace({ project, index }: { project: FeaturedProject; index: number }) {
+  return (
+    <>
+      <span className="eyebrow">Featured / {String(index + 1).padStart(3, "0")}</span>
+      <h3 className="featured__name">{project.name}<span>.</span></h3>
+      <p className="featured__summary">{project.summary}</p>
+      <p className="featured__desc">{project.description}</p>
+
+      <ul className="feature-list">
+        {project.features.map((feature) => (
+          <li key={feature}>{feature}</li>
+        ))}
+      </ul>
+
+      <div className="featured__cta">
+        <a className="btn btn--primary" href={project.repo} target="_blank" rel="noreferrer noopener">
+          <Github size={15} aria-hidden="true" />
+          View repository
+          <ArrowUpRight size={13} aria-hidden="true" />
+        </a>
+        <a className="btn" href="#writeups">
+          Browse the writeups
+          <ExternalLink size={13} aria-hidden="true" />
+        </a>
+      </div>
+    </>
+  )
+}
+
+function TerminalFace({ project }: { project: FeaturedProject }) {
+  return (
+    <TerminalWindow title={project.terminalTitle} copyText={project.stack.join(" · ")}>
+      <p className="prompt-line"><span className="prompt">$</span> cat package.json | grep stack</p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
+        {project.stack.map((tech) => (
+          <Badge key={tech} tone="mint">{tech}</Badge>
+        ))}
+      </div>
+      <p className="prompt-line"><span className="prompt">$</span> archive stats --summary</p>
+      <div className="featured__metrics">
+        {project.metrics.map((m) => (
+          <div className="metric" key={m.label}>
+            <strong>{m.value}</strong>
+            <span>{m.label}</span>
+          </div>
+        ))}
+      </div>
+      <p className="prompt-line" style={{ marginTop: 28, marginBottom: 0 }}>
+        <span className="prompt">$</span> git remote -v
+      </p>
+      <p style={{ fontSize: 11.5, color: "var(--sky)", wordBreak: "break-all", marginTop: 6 }}>
+        origin &nbsp;{project.repo}
+      </p>
+    </TerminalWindow>
+  )
+}
 
 export default function Featured() {
+  const [active, setActive] = useState(0)
+  const [direction, setDirection] = useState<"prev" | "next">("next")
+  const [phase, setPhase] = useState<"idle" | "out" | "in">("idle")
+  const timer = useRef<number | null>(null)
+  const project = featuredProjects[active]
+
+  useEffect(() => () => {
+    if (timer.current !== null) window.clearTimeout(timer.current)
+  }, [])
+
+  const goTo = (index: number, dir: "prev" | "next") => {
+    if (index === active && phase === "idle") return
+    if (timer.current !== null) window.clearTimeout(timer.current)
+    setDirection(dir)
+
+    // Reduced-motion users get an instant swap instead of the swipe.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("idle")
+      setActive(index)
+      return
+    }
+
+    setPhase("out")
+    timer.current = window.setTimeout(() => {
+      setActive(index)
+      setPhase("in")
+      timer.current = window.setTimeout(() => {
+        setPhase("idle")
+        timer.current = null
+      }, SWIPE_IN_MS)
+    }, SWIPE_OUT_MS)
+  }
+
+  const previous = () =>
+    goTo((active - 1 + featuredProjects.length) % featuredProjects.length, "prev")
+
+  const next = () => goTo((active + 1) % featuredProjects.length, "next")
+
   return (
     <section id="featured" className="section">
       <div className="shell">
@@ -15,59 +116,57 @@ export default function Featured() {
           lead="One project, built end to end: an archive that turns every CTF box into a reusable lesson."
         />
 
-        <div className="featured__grid">
-          <ScrollReveal>
-            <div>
-              <span className="eyebrow">Featured / 001</span>
-              <h3 className="featured__name">{featuredProject.name}<span>.</span></h3>
-              <p className="featured__summary">{featuredProject.summary}</p>
-              <p className="featured__desc">{featuredProject.description}</p>
+        <div
+          className="featured__slider"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Featured projects"
+          style={{
+            "--swipe-in": direction === "prev" ? "-48px" : "48px",
+            "--swipe-out": direction === "prev" ? "48px" : "-48px",
+          } as React.CSSProperties}
+        >
+          <button
+            type="button"
+            className="featured__nav featured__nav--prev"
+            onClick={previous}
+            aria-label="Previous featured project"
+            aria-controls="featured-panel"
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+          </button>
 
-              <ul className="feature-list">
-                {featuredProject.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
+          <div className="featured__grid" id="featured-panel">
+            <ScrollReveal>
+              <div className="featured__face" data-phase={phase}>
+                <TextFace project={project} index={active} />
+              </div>
+            </ScrollReveal>
 
-              <div className="featured__cta">
-                <a className="btn btn--primary" href={featuredProject.repo} target="_blank" rel="noreferrer noopener">
-                  <Github size={15} aria-hidden="true" />
-                  View repository
-                  <ArrowUpRight size={13} aria-hidden="true" />
-                </a>
-                <a className="btn" href="#writeups">
-                  Browse the writeups
-                  <ExternalLink size={13} aria-hidden="true" />
-                </a>
+            <ScrollReveal delay={120}>
+              <div className="featured__face" data-phase={phase}>
+                <TerminalFace project={project} />
               </div>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
 
-          <ScrollReveal delay={120}>
-            <TerminalWindow title="CTF-Archive — stack & signals" copyText={featuredProject.stack.join(" · ")}>
-              <p className="prompt-line"><span className="prompt">$</span> cat package.json | grep stack</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-                {featuredProject.stack.map((tech) => (
-                  <Badge key={tech} tone="mint">{tech}</Badge>
-                ))}
-              </div>
-              <p className="prompt-line"><span className="prompt">$</span> archive stats --summary</p>
-              <div className="featured__metrics">
-                {featuredProject.metrics.map((m) => (
-                  <div className="metric" key={m.label}>
-                    <strong>{m.value}</strong>
-                    <span>{m.label}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="prompt-line" style={{ marginTop: 28, marginBottom: 0 }}>
-                <span className="prompt">$</span> git remote -v
-              </p>
-              <p style={{ fontSize: 11.5, color: "var(--sky)", wordBreak: "break-all", marginTop: 6 }}>
-                origin &nbsp;{featuredProject.repo}
-              </p>
-            </TerminalWindow>
-          </ScrollReveal>
+          <button
+            type="button"
+            className="featured__nav featured__nav--next"
+            onClick={next}
+            aria-label="Next featured project"
+            aria-controls="featured-panel"
+          >
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+
+          <span
+            className="sr-only"
+            style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}
+            aria-live="polite"
+          >
+            Showing {project.name}, featured project {active + 1} of {featuredProjects.length}
+          </span>
         </div>
 
         <ScrollReveal delay={80}>
