@@ -3,7 +3,6 @@
  * Edit here — components only render what is defined below.
  *
  * PLACEHOLDERS YOU MUST FILL IN:
- *   - profile.email      (not provided)
  *   - profile.linkedin   (not provided)
  * Everything else comes from the supplied "About me" brief or the local
  * CTF writeup archive in ~/Projects/writer_blog/src/writeups.
@@ -24,8 +23,8 @@ export const profile = {
     "Arch Linux User",
   ],
   github: "https://github.com/5h4nnu-dev",
-  // TODO: replace these two placeholders with real links.
-  email: "5h4nnu.official.@gmail.com",
+  email: "5h4nnu.official@gmail.com",
+  // TODO: replace this placeholder with the public profile URL when available.
   linkedin: "PLACEHOLDER_LINKEDIN",
 } as const
 
@@ -251,4 +250,5 @@ export const commandLinks = [
   { label: "Contact", href: "#contact", kind: "section" },
   { label: "CTF-Archive on GitHub", href: featuredProject.repo, kind: "link" },
   { label: "GitHub profile", href: profile.github, kind: "link" },
+  { label: `Email ${profile.email}`, href: `mailto:${profile.email}`, kind: "link" },
 ] as const

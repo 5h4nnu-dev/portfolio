@@ -46,6 +46,8 @@ export default function CommandPalette() {
     setOpen(false)
     if (href.startsWith("#")) {
       document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
+    } else if (href.startsWith("mailto:")) {
+      window.location.href = href
     } else {
       window.open(href, "_blank", "noopener,noreferrer")
     }

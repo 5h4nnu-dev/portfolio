@@ -29,8 +29,8 @@ const responses: Record<string, Line[]> = {
   contact: [
     { text: "contact:", tone: "mint" },
     { text: `  github  ${profile.github}` },
-    { text: "  email   PLACEHOLDER_EMAIL", tone: "accent" },
-    { text: "  linkedin PLACEHOLDER_LINKEDIN", tone: "accent" },
+    { text: `  email    ${profile.email}`, tone: "mint" },
+    { text: "  linkedin YET TO REVEAL", tone: "accent" },
   ],
 }
 

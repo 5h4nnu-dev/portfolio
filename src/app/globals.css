@@ -1082,6 +1082,16 @@ h4 {
 .contact__line:last-child { border-bottom: 0; }
 .contact__line small { color: var(--faint); font-size: 11px; }
 .contact__line a { color: var(--mint); }
+.contact__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.contact__value > a { text-align: right; }
 .placeholder {
   color: var(--amber);
   border-bottom: 1px dashed rgba(251, 191, 36, 0.5);

@@ -1,7 +1,8 @@
-import { ArrowUpRight, Github } from "lucide-react"
+import { ArrowUpRight, Github, Mail } from "lucide-react"
 import SectionHeading from "@/components/ui/SectionHeading"
 import TerminalWindow from "@/components/ui/TerminalWindow"
 import ScrollReveal from "@/components/ui/ScrollReveal"
+import CopyButton from "@/components/ui/CopyButton"
 import { profile } from "@/lib/data"
 
 export default function Contact() {
@@ -25,14 +26,17 @@ export default function Contact() {
               </div>
               <div className="contact__line">
                 <span>Email</span>
-                <span className="placeholder" title="Placeholder — add your email in src/lib/data.ts">
-                  PLACEHOLDER_EMAIL
+                <span className="contact__value">
+                  <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`}>
+                    {profile.email} <ArrowUpRight size={12} style={{ verticalAlign: -2 }} aria-hidden="true" />
+                  </a>
+                  <CopyButton text={profile.email} label="Copy" />
                 </span>
               </div>
               <div className="contact__line">
                 <span>LinkedIn</span>
                 <span className="placeholder" title="Placeholder — add your LinkedIn URL in src/lib/data.ts">
-                  PLACEHOLDER_LINKEDIN
+                  YET TO REVEAL
                 </span>
               </div>
               <div className="contact__line">
@@ -40,7 +44,7 @@ export default function Contact() {
                 <span>{profile.location}</span>
               </div>
               <p className="contact__note">
-                Two placeholders remain: email and LinkedIn. Replace them in <code className="mono">src/lib/data.ts</code> and they will appear here and in the command palette.
+                Email is live — click the address to write, or copy it with one click. LinkedIn is the only placeholder left; add it in <code className="mono">src/lib/data.ts</code> and it will appear here and in the command palette.
               </p>
             </TerminalWindow>
           </ScrollReveal>
@@ -53,11 +57,16 @@ export default function Contact() {
                   <span className="pulse-dot" style={{ marginRight: 10 }} aria-hidden="true" /> get in touch
                 </p>
                 <p style={{ marginTop: 12, color: "var(--muted)", fontSize: 14, maxWidth: "42ch" }}>
-                  For vulnerability research, AI-driven security tooling or CTF collaboration, the GitHub profile below is the live channel until the other links are filled in.
+                  For vulnerability research, AI-driven security tooling or CTF collaboration, email is the fastest way to reach me. GitHub works too — pick whichever you prefer.
                 </p>
-                <a className="btn btn--primary" style={{ alignSelf: "flex-start", marginTop: 24 }} href={profile.github} target="_blank" rel="noreferrer noopener">
-                  <Github size={15} aria-hidden="true" /> Open GitHub
-                </a>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 24 }}>
+                  <a className="btn btn--primary" href={`mailto:${profile.email}`}>
+                    <Mail size={15} aria-hidden="true" /> Send an email
+                  </a>
+                  <a className="btn" href={profile.github} target="_blank" rel="noreferrer noopener">
+                    <Github size={15} aria-hidden="true" /> Open GitHub
+                  </a>
+                </div>
               </div>
             </div>
           </ScrollReveal>
