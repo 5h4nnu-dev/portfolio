@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal"
 import { profile, projects, writeupTopics } from "@/lib/data"
 
 const learning = ["Malware Analysis", "Reverse Engineering", "Kubernetes", "Cloud Security", "AI Agents"]
-const building = projects.map((p) => p.name)
+const building = projects.filter((p) => p.status !== "Completed").map((p) => p.name)
 
 export default function Currently() {
   return (
