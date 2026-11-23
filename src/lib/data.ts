@@ -125,7 +125,7 @@ export const projects: Project[] = [
     name: "Vulnix",
     description: "AI-powered vulnerability scanner that finds and validates security flaws.",
     tags: ["Security", "AI", "Automation"],
-    status: "In development",
+    status: "Completed",
   },
   {
     name: "SecureProbe",
